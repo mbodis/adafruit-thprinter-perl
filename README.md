@@ -13,8 +13,8 @@ added custom method:<br>
 	printing image with gradient effect<br>
 
 
-<h4>for more info pleas run example:</h4>
-	<b>demo_print.pl</b>
+<h4>for more info please run example:</h4>
+<b>demo_print.pl</b>
 
 
 
