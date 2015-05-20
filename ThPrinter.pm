@@ -30,6 +30,8 @@ use Time::HiRes;
 use utf8;
 use Unicode::Normalize;
 use Text::Unaccent;
+
+# use lib "/home/mbodis/path_to_lib/" TODO
 use lib "./helper";
 use Cp437Helper;
 use Cp850Helper;
@@ -81,7 +83,7 @@ sub new {
 	return $self; # a constructor always returns an blessed() object	
 }
 
-sub initPrinter(){
+sub initPrinter{
 	my ( $self, $port ) = @_;
 
 	if (length($port) == 0){
@@ -100,7 +102,7 @@ sub initPrinter(){
 	$printer->lookclear; 
 }
 
-sub sleep(){
+sub sleep{
 	my ( $self, $time) = @_;
 	Time::HiRes::sleep($time);
 }
@@ -111,7 +113,7 @@ sub sleep(){
 # 
 # 
 #
-sub printText(){
+sub printText{
 	my ( $self, $msg, $empty_line ) = @_;
 
 	my ($chr, $chrI);
@@ -154,13 +156,13 @@ sub printText(){
 
 # prints the data in printer buffer and feeds one line.
 # When the print buffer is empty, LF feeds one line.
-sub printAndLinefeed(){
+sub printAndLinefeed{
 	my ( $self) = @_;
 	$printer->write(chr(10));
 }
 
 # TAB position is 4 chars position
-sub jumpToTabPosition(){
+sub jumpToTabPosition{
 	my ( $self) = @_;
 	
 	# $printer->write(chr(9)); #not works ?
@@ -173,7 +175,7 @@ sub jumpToTabPosition(){
 #
 # print data from buffer
 # 
-sub printDataFromBuffer(){
+sub printDataFromBuffer{
 	my ( $self) = @_;
 
 	$printer->write(chr(12));
@@ -182,7 +184,7 @@ sub printDataFromBuffer(){
 #
 # turn printer on
 # 
-sub setPrintOnline(){
+sub setPrintOnline{
 	my ( $self) = @_;
 
 	$printer->write(chr(27));
@@ -194,7 +196,7 @@ sub setPrintOnline(){
 # turn printer off
 # need to run init printer again
 # 
-sub setPrintOffline(){
+sub setPrintOffline{
 	my ( $self) = @_;
 
 	$printer->write(chr(27));
@@ -209,7 +211,7 @@ sub setPrintOffline(){
 #
 # select default line spacing
 # 
-sub defaultSpacing(){
+sub defaultSpacing{
 	my ( $self) = @_;
 	$printer->write(chr(27));
     $printer->write(chr(50));
@@ -218,7 +220,7 @@ sub defaultSpacing(){
 #
 # n pixels spacing
 # 
-sub setSpacing(){
+sub setSpacing{
 	my ( $self, $n) = @_;
 
 	# 32 points is default	
@@ -235,7 +237,7 @@ sub setSpacing(){
 #    
 # L, C, R - set text alignment   
 # 
-sub setTextAlign(){
+sub setTextAlign{
 	my ( $self, $align) = @_;
 
 	$res_align = 0;		
@@ -261,7 +263,7 @@ sub setTextAlign(){
 # $nL 0-255 left margin
 # $nH 0-255 top margin
 # 
-sub setLeftSpace(){
+sub setLeftSpace{
 	my ( $self, $nL, $nH) = @_;	
 
 	if (length($nL) > 0 && $nL>=0 && $nL <= 255
@@ -281,7 +283,7 @@ sub setLeftSpace(){
 # Default is 0
 # 0 ≤ m ≤ 47
 # 
-sub setLeftSpaceChars(){
+sub setLeftSpaceChars{
 	my ( $self, $n) = @_;
 
 	if (length($n) > 0 && $n>=0 && $n <= 47){
@@ -299,7 +301,7 @@ sub setLeftSpaceChars(){
 # 			CHARACTER COMMAND 			  #
 # # # # # # # # # # # # # # # # # # # # # #
 
-sub setFontEnlargeOn(){
+sub setFontEnlargeOn{
 	my ( $self) = @_;
 
 	$printer->write(chr(29));
@@ -307,7 +309,7 @@ sub setFontEnlargeOn(){
     $printer->write(chr(1));
 }
 
-sub setFontEnlargeOff(){
+sub setFontEnlargeOff{
 	my ( $self) = @_;
 
 	$printer->write(chr(29));
@@ -315,7 +317,7 @@ sub setFontEnlargeOff(){
 	$printer->write(chr(0));
 }
 
-sub setBoldOn(){
+sub setBoldOn{
 	my ( $self ) = @_;
 
 	$printer->write(chr(27));
@@ -323,7 +325,7 @@ sub setBoldOn(){
     $printer->write(chr(1));
 }
 
-sub setBoldOff(){
+sub setBoldOff{
 	my ( $self) = @_;
 
 	$printer->write(chr(27));
@@ -331,7 +333,7 @@ sub setBoldOff(){
 	$printer->write(chr(0));
 }
 
-sub setBoldOn_2(){
+sub setBoldOn_2{
 	my ( $self ) = @_;
 
 	$printer->write(chr(27));
@@ -339,7 +341,7 @@ sub setBoldOn_2(){
     $printer->write(chr(1));
 }
 
-sub setBoldOff_2(){
+sub setBoldOff_2{
 	my ( $self) = @_;
 
 	$printer->write(chr(27));
@@ -347,21 +349,21 @@ sub setBoldOff_2(){
 	$printer->write(chr(0));
 }
 
-sub setDoubleWidthOn(){
+sub setDoubleWidthOn{
 	my ( $self) = @_;
 
 	$printer->write(chr(27));
     $printer->write(chr(14));
 }
 
-sub setDoubleWidthOff(){
+sub setDoubleWidthOff{
 	my ( $self) = @_;
 
 	$printer->write(chr(27));
     $printer->write(chr(20));
 }
 
-sub setUpsidedownOn(){
+sub setUpsidedownOn{
 	my ( $self) = @_;
 
 	$printer->write(chr(27));
@@ -369,7 +371,7 @@ sub setUpsidedownOn(){
 	$printer->write(chr(1));
 }
 
-sub setUpsidedownOff(){
+sub setUpsidedownOff{
 	my ( $self) = @_;
 
 	$printer->write(chr(27));
@@ -377,7 +379,7 @@ sub setUpsidedownOff(){
 	$printer->write(chr(0));
 }
 
-sub setInverseOn(){
+sub setInverseOn{
 	my ( $self) = @_;
 
 	$printer->write(chr(29));
@@ -385,7 +387,7 @@ sub setInverseOn(){
 	$printer->write(chr(1));
 }
 
-sub setInverseOff(){
+sub setInverseOff{
 	my ( $self) = @_;
 
 	$printer->write(chr(29));
@@ -396,7 +398,7 @@ sub setInverseOff(){
 #
 # set underline height 1, 2 pixel height
 #
-sub setUnderlineOn(){
+sub setUnderlineOn{
 	my ( $self, $n) = @_;
 	
 	if (!(length($n) > 0 && $n >= 1 && $n <= 2)){
@@ -408,7 +410,7 @@ sub setUnderlineOn(){
 	$printer->write(chr($n));
 }
 
-sub setUnderlineOff(){
+sub setUnderlineOff{
 	my ( $self) = @_;
 
 	$printer->write(chr(27));
@@ -416,7 +418,7 @@ sub setUnderlineOff(){
 	$printer->write(chr(0));
 }
 
-sub setUserDefinedCharsOn(){
+sub setUserDefinedCharsOn{
 	my ( $self) = @_;
 
 	$printer->write(chr(27));
@@ -424,7 +426,7 @@ sub setUserDefinedCharsOn(){
 	$printer->write(chr(1));
 }
 
-sub setUserDefinedCharsOff(){
+sub setUserDefinedCharsOff{
 	my ( $self) = @_;
 
 	$printer->write(chr(27));
@@ -435,7 +437,7 @@ sub setUserDefinedCharsOff(){
 #
 # test of custom char - char is fully black
 # 
-sub defineUserDefinedCharactersTest(){
+sub defineUserDefinedCharactersTest{
 	my ( $self, $chr) = @_;
 
 	if ($chr >=32 && $chr<=126){
@@ -466,7 +468,7 @@ sub defineUserDefinedCharactersTest(){
 # $chr - define a char to replace
 # $filename - bitmap of new char 12x24px (binary image)
 # 
-sub defineUserDefinedCharactersByBitmap(){
+sub defineUserDefinedCharactersByBitmap{
 	my ( $self, $chr, $filename) = @_;
 
 	if ($chr >=32 && $chr<=126){
@@ -530,7 +532,7 @@ sub defineUserDefinedCharactersByBitmap(){
 # 12: Latin America
 # 13: Korea
 # 
-sub setInternalCharacterSet(){
+sub setInternalCharacterSet{
 	my ( $self, $n) = @_;
 
 	if ($n>=0 && $n <=13){
@@ -542,7 +544,7 @@ sub setInternalCharacterSet(){
 	}
 }
 
-sub setFontBOn(){
+sub setFontBOn{
 	my ( $self) = @_;
 
 	$printer->write(chr(27));
@@ -550,7 +552,7 @@ sub setFontBOn(){
 	$printer->write(chr(1));
 }
 
-sub setFontBOff(){
+sub setFontBOff{
 	my ( $self) = @_;
 
 	$printer->write(chr(27));
@@ -572,7 +574,7 @@ sub setFontBOff(){
 # 10: Iran
 # 11: reserve
 #
-sub selectCharacterCodeTable(){
+sub selectCharacterCodeTable{
 	my ( $self, $n) = @_;
 
 	if ($n >= 0 && $n <= 12){
@@ -598,7 +600,7 @@ sub selectCharacterCodeTable(){
 # n: Bitmap width
 # Bitmap format: d1-dn 
 #
-sub printBitmap(){
+sub printBitmap{
 	my ( $self, $filename) = @_;
 
 	my $image = $self->repairImgSize($filename);		
@@ -655,7 +657,7 @@ sub printBitmap(){
 # $limit - if unset gradient will be applied to whole height
 # $limit - if set, gradient will be applied to first $limit rows
 # 
-sub printBitmapGradient(){
+sub printBitmapGradient{
 	my ( $self, $filename, $limit) = @_;
 	
 	my $image = $self->repairImgSize($filename);		
@@ -706,7 +708,7 @@ sub printBitmapGradient(){
 
 }
 
-sub getBitByColorVaues(){
+sub getBitByColorVaues{
 	my ( $self, $r, $g, $b, $a) = @_;
 
 	#white
@@ -732,7 +734,7 @@ sub getBitByColorVaues(){
 #
 # this setting is applied only if printing image is smaller than width (384px)
 #
-sub setImagePosition(){
+sub setImagePosition{
 	my ( $self, $pos) = @_;
 	
 	if ($pos >= 0 && $pos <= 2){
@@ -746,7 +748,7 @@ sub setImagePosition(){
 #
 # if printing image is too small (align by setting) or too big (resize)
 #
-sub repairImgSize(){
+sub repairImgSize{
 	my ( $self, $filename) = @_;
 
 	my $image = Image::Imlib2->load($filename);
@@ -800,7 +802,7 @@ sub repairImgSize(){
 #			KEY CONTROLL COMMAND 			#
 # # # # # # # # # # # # # # # # # # # # # # #
 
-sub setPanelKeyOn(){
+sub setPanelKeyOn{
 	my ( $self) = @_;
 
 	# This command has no effection
@@ -810,7 +812,7 @@ sub setPanelKeyOn(){
 	# $printer->write(chr(0));
 } 
 
-sub setPanelKeyOff(){
+sub setPanelKeyOff{
 	my ( $self) = @_;
 
 	# This command has no effection
@@ -831,7 +833,7 @@ sub setPanelKeyOff(){
 # - reset the param to default value
 # - return to standard mode
 # - delete user-defined characters
-sub initSettings(){
+sub initSettings{
 	my ( $self) = @_;
 	$printer->write(chr(27));
 	$printer->write(chr(64));
@@ -844,7 +846,7 @@ sub initSettings(){
 # transmit paper sensor status
 # P<Paper>V<Voltage>T<Degree>
 # $n ??
-sub transmitPaperSensorStatus(){
+sub transmitPaperSensorStatus{
 	my ( $self) = @_;
 	$printer->write(chr(27));
 	$printer->write(chr(118));
@@ -853,12 +855,12 @@ sub transmitPaperSensorStatus(){
 }
 
 # enable/disable automatic status back
-sub automaticStatusBack(){
+sub automaticStatusBack{
 	#TODO 
 }
 
 # transmit peripheral device status
-sub automaticStatusBack(){
+sub automaticStatusBack{
 	my ( $self) = @_;
 	#this command is not supported	
 }
@@ -880,7 +882,7 @@ sub automaticStatusBack(){
 # 2: Below the barcode
 # 3: Both above and below the barcode
 #
-sub setPrintingPositionOfCharacters(){
+sub setPrintingPositionOfCharacters{
 	my ( $self, $pos) = @_;
 
 	if ($pos >= 0 && $pos <= 3){
@@ -896,7 +898,7 @@ sub setPrintingPositionOfCharacters(){
 # This command selects the height of a barcode. n specifies the number
 # of dots in the vertical direction. The default value is 50
 # 
-sub setBarcodeHeight(){
+sub setBarcodeHeight{
 	my ( $self, $h) = @_;
 
 	if ($h >= 1 && $h <= 255){
@@ -911,7 +913,7 @@ sub setBarcodeHeight(){
 # 
 # Set the barcode printing left space
 # 
-sub setBarcodePrintLeftSpace(){
+sub setBarcodePrintLeftSpace{
 	my ( $self, $n) = @_;
 
 	$printer->write(chr(29));
@@ -924,7 +926,7 @@ sub setBarcodePrintLeftSpace(){
 #  n = 2,3
 #  The default value is 3
 #  
-sub setBarcodeWidth(){
+sub setBarcodeWidth{
 	my ( $self, $n) = @_;
 
 	if ($n == 2 || $n ==3){
@@ -951,7 +953,7 @@ sub setBarcodeWidth(){
 # 75 = MSI			>1					48-57
 # 
 # 
-sub printBarcode(){
+sub printBarcode{
 	my ( $self, $format, $barcode) = @_;
 
 	if (length($format) ==0 || length($barcode) ==0){
@@ -1054,7 +1056,7 @@ sub printBarcode(){
 
 }
 
-sub validateLength(){
+sub validateLength{
 	my ( $self, $barcode, $from, $to) = @_;
 
 	if (length($barcode) < $from){
@@ -1070,7 +1072,7 @@ sub validateLength(){
 	return '';
 }
 
-sub validateChars(){
+sub validateChars{
 	my ( $self, $barcode, $from, $to) = @_;
 	
 	$to = $form if (length($to) == 0);
@@ -1087,7 +1089,7 @@ sub validateChars(){
 	return '';
 }
 
-sub isLengthEven(){
+sub isLengthEven{
 	my ( $self, $barcode) = @_;
 
 	if ((length($barcode)%2) == 1){
@@ -1120,7 +1122,7 @@ sub isLengthEven(){
 #  n1 = $heatingDots
 #  n2 = $heatTime
 #  n3 = $heatInterval
-sub setControllParameterCommand(){
+sub setControllParameterCommand{
 	my ( $self, $heatingDots, $heatTime, $heatInterval) = @_;
 
 	if ( ($heatingDots >= 0 && $heatingDots <= 30) 
@@ -1145,7 +1147,7 @@ sub setControllParameterCommand(){
 # to wake up control board. And waiting 50ms, then send printing command and data.
 # NOTE: The command is useful when the system is powered by battery
 # 
-sub setSleep(){
+sub setSleep{
 	my ( $self, $n1) = @_;
 	
 	if ($n1 >= 0 && $n1 <=255){		
@@ -1165,7 +1167,7 @@ sub setSleep(){
 #
 # $n1 = <0-31> density (integer)
 # $n2 = <0-7> break time (integer)
-sub setPrintingDensity(){
+sub setPrintingDensity{
 	my ( $self, $n1, $n2) = @_;
 
 	if ( ($n1 >= 0 && $n1 <= 31) 
@@ -1187,7 +1189,7 @@ sub setPrintingDensity(){
 #
 # print the test page
 #
-sub printTestPage(){
+sub printTestPage{
 	my ( $self) = @_;
 
 	$printer->write(chr(18));
@@ -1195,7 +1197,7 @@ sub printTestPage(){
 }
 
 
-sub printTestChars(){
+sub printTestChars{
 	my ( $self) = @_;
 
 	for (my $m = 32; $m < 255; $m++) {
@@ -1210,7 +1212,7 @@ sub printTestChars(){
 #			HELPER 			#
 # # # # # # # # # # # # # # #
 
-sub invalidInput(){
+sub invalidInput{
 	my ( $self, $msg) = @_;
 	print $msg . " invalid input";
 

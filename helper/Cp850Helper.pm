@@ -249,7 +249,7 @@ my %Cp850 = (
 	# 'NBSP', 255 
 );
 
-sub charToInt(){
+sub charToInt{
 	my ( $self, $chr ) = @_;
 
 	return $Cp850{$chr};

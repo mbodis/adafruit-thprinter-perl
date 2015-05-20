@@ -249,7 +249,7 @@ my %Cp437 = (
 	# ' ', 255
 );
 
-sub charToInt(){
+sub charToInt{
 	my ( $self, $chr ) = @_;
 
 	return $Cp437{$chr};

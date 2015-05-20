@@ -18,9 +18,11 @@
 
 use strict; 
 use warnings;
-use ThPrinter;
 use utf8;
 use Unicode::Normalize;
+
+# use lib "/home/mbodis/path_to_lib/" TODO
+use ThPrinter;
 
 my $printer = new ThPrinter();
 
